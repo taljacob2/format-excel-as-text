@@ -19,14 +19,14 @@
 
   .EXAMPLE
   PS> # Format the `.xls` Excel file in the current directory to text file(s).
-  PS> .\edit-date-of-file.ps1 -Path "*.xls"
+  PS> .\format-excel-as-text -Path "*.xls"
 
   .EXAMPLE
   PS> # Format an Excel file by its absolute path to text file(s).
-  PS> .\edit-date-of-file.ps1 -Path "C:\Users\demo.xlsx"
+  PS> .\format-excel-as-text -Path "C:\Users\demo.xlsx"
 
   .LINK
-  Online version: https://github.com/taljacob2/edit-date-of-file
+  Online version: https://github.com/taljacob2/format-excel-as-text
 #>
 
 param (
