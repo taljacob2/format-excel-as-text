@@ -22,11 +22,15 @@
   Author: Tal Jacob
 
   .EXAMPLE
-  PS> # Format the `.xls` Excel file in the current directory to text file(s).
-  PS> .\format-excel-as-text -Path "*.xls"
+  PS> # Default: Format the `.xlsx` Excel file in the current directory to text file(s), until cell "z999".
+  PS> .\format-excel-as-text
 
   .EXAMPLE
-  PS> # Format an Excel file by its absolute path to text file(s).
+  PS> # Format the `.xls` Excel file in the current directory to text file(s), until cell "j23".
+  PS> .\format-excel-as-text -Path "*.xls" -RangeEndCell "j23"
+
+  .EXAMPLE
+  PS> # Format an Excel file by its absolute path to text file(s), until cell "z999".
   PS> .\format-excel-as-text -Path "C:\Users\demo.xlsx"
 
   .LINK
