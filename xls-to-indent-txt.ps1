@@ -10,24 +10,34 @@ function Parse-Worksheet {
     Write-Output $workSheet["A1"]
 }
 
-$files = Get-ChildItem *.xls
+function Convert-XlsToCsv {
+    param (
+        [parameter()][System.IO.FileSystemInfo]$Item = (Get-ChildItem *.xlsx)
+    )
 
-$Excel = New-Object -ComObject Excel.Application
-$Excel.visible = $false
-$Excel.DisplayAlerts = $false
+    $Excel = New-Object -ComObject Excel.Application
+    $Excel.visible = $false
+    $Excel.DisplayAlerts = $false
 
-ForEach ($file in $files) {
-    Write-Output "Loading File '$($file.Name)'..."
-    $workBook = $Excel.Workbooks.Open($file.Fullname)
-    
-    Parse-Worksheet -WorkBook $workBook
+    $workBook = $Excel.Workbooks.Open($Item.Fullname)
 
-    # $workbook.SaveAs("$($file.Fullname).txt", 42)   # xlUnicodeText
+    # $workbook.SaveAs("$($Item.Fullname).txt", 42)   # xlUnicodeText
+
+    $csvFullName = "$($Item.Fullname).csv"
+    $workbook.SaveAs($csvFullName, 6)   # csv
+
+    # cleanup
+    $Excel.Quit()
+
+    return $csvFullName
 }
 
-# cleanup
-$Excel.Quit()
-# [System.Runtime.Interopservices.Marshal]::ReleaseComObject($WorkBook) | Out-Null
-[System.Runtime.Interopservices.Marshal]::ReleaseComObject($Excel) | Out-Null
-[System.GC]::Collect()
-[System.GC]::WaitForPendingFinalizers()
+$csvFullName = Convert-XlsToCsv
+Import-Csv $csvFullName > out.txt 
+
+# # cleanup
+# $Excel.Quit()
+# # [System.Runtime.Interopservices.Marshal]::ReleaseComObject($WorkBook) | Out-Null
+# [System.Runtime.Interopservices.Marshal]::ReleaseComObject($Excel) | Out-Null
+# [System.GC]::Collect()
+# [System.GC]::WaitForPendingFinalizers()
