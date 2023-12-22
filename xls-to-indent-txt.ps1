@@ -58,8 +58,18 @@ $newFormattedFileFullName = Format-ExcelWorksheet
 $csvFullName = Convert-ExcelToCsv -Item (Get-ChildItem $newFormattedFileFullName)
 Import-Csv $csvFullName > "$csvFullName.txt"
 
+$delimitedCsv = $(Import-Csv $csvFullName)
+$delimitedCsv | Foreach-Object { 
+    foreach ($property in $_.PSObject.Properties)
+    {
+        $property.Value = "$($property.Value)~"
+    }
+}
+Write-Output $delimitedCsv > "$csvFullName.delimited.txt"
+
 # Clean temporary files used for calculations.
 rm $newFormattedFileFullName
 rm $csvFullName
 
-Write-Output "The result file is '$csvFullName.txt'"
+Write-Output "New file: '$csvFullName.txt'"
+Write-Output "New file: '$csvFullName.delimited.txt'"
