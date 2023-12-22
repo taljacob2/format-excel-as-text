@@ -7,8 +7,7 @@ $Excel.DisplayAlerts = $false
 ForEach ($file in $files) {
     Write-Output "Loading File '$($file.Name)'..."
     $WorkBook = $Excel.Workbooks.Open($file.Fullname)
-    $NewFilePath = [System.IO.Path]::ChangeExtension($file.Fullname, ".txt")
-    $Workbook.SaveAs($NewFilepath, 42)   # xlUnicodeText
+    $Workbook.SaveAs("$($file.Fullname).txt", 42)   # xlUnicodeText
 }
 
 # cleanup
