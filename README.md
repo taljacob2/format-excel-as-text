@@ -11,17 +11,25 @@ The following commands should be run with *powershell.exe*.
 Syntax:
 
 ```ps1
-& ([scriptblock]::Create((iwr https://raw.githubusercontent.com/taljacob2/format-excel-as-text/master/format-excel-as-text.ps1 -useb))) [-Path (<string>)]
+& ([scriptblock]::Create((iwr https://raw.githubusercontent.com/taljacob2/format-excel-as-text/master/format-excel-as-text.ps1 -useb))) [[-Path] <String>]
 ```
 
 Examples:
 
+- *Default:* Format the `.xlsx` Excel file in the current directory to text file(s).
+
+  ```ps1
+  & ([scriptblock]::Create((iwr https://raw.githubusercontent.com/taljacob2/format-excel-as-text/master/format-excel-as-text.ps1 -useb)))
+  ```
+
 - Format the `.xls` Excel file in the current directory to text file(s).
+
   ```ps1
   & ([scriptblock]::Create((iwr https://raw.githubusercontent.com/taljacob2/format-excel-as-text/master/format-excel-as-text.ps1 -useb))) -Path "*.xls"
   ```
 
 - Format an Excel file by its absolute path to text file(s).
+
   ```ps1
   & ([scriptblock]::Create((iwr https://raw.githubusercontent.com/taljacob2/format-excel-as-text/master/format-excel-as-text.ps1 -useb))) -Path "C:\Users\demo.xlsx"
   ```
@@ -42,7 +50,7 @@ git clone https://github.com/taljacob2/format-excel-as-text.ps1
 
 In case you encouter an error, try running with:
 ```
-powershell.exe -NoLogo -ExecutionPolicy Bypass -Command ".\format-excel-as-text.ps1 -Path <string>"
+powershell.exe -NoLogo -ExecutionPolicy Bypass -Command ".\format-excel-as-text.ps1 [[-Path] <String>]"
 ```
 
 ## Help

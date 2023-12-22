@@ -18,6 +18,10 @@
   Author: Tal Jacob
 
   .EXAMPLE
+  PS> # Default: Format the `.xlsx` Excel file in the current directory to text file(s).
+  PS> .\format-excel-as-text
+
+  .EXAMPLE
   PS> # Format the `.xls` Excel file in the current directory to text file(s).
   PS> .\format-excel-as-text -Path "*.xls"
 
