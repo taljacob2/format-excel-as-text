@@ -1,3 +1,34 @@
+<#
+  .DESCRIPTION
+  A script that receives an Excel file, formats it, and exports it as formatted
+  text file(s).
+
+  .PARAMETER Path
+  Specify the path to the target Excel file that you wish to export.
+  If not specified, this deafults to the ".xlsx" file in the current directory.
+
+  .INPUTS
+  None. You cannot pipe objects to this script.
+
+  .OUTPUTS
+  This script generates text file(s) exported from the given Excel file.
+
+  .NOTES
+  MIT License
+  Author: Tal Jacob
+
+  .EXAMPLE
+  PS> # Format the `.xls` Excel file in the current directory to text file(s).
+  PS> .\edit-date-of-file.ps1 -Path "*.xls"
+
+  .EXAMPLE
+  PS> # Format an Excel file by its absolute path to text file(s).
+  PS> .\edit-date-of-file.ps1 -Path "C:\Users\demo.xlsx"
+
+  .LINK
+  Online version: https://github.com/taljacob2/edit-date-of-file
+#>
+
 param (
     [parameter()][string]$Path = "*.xlsx"
 )
