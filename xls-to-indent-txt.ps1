@@ -34,10 +34,3 @@ function Convert-XlsToCsv {
 
 $csvFullName = Convert-XlsToCsv
 Import-Csv $csvFullName > out.txt 
-
-# # cleanup
-# $Excel.Quit()
-# # [System.Runtime.Interopservices.Marshal]::ReleaseComObject($WorkBook) | Out-Null
-# [System.Runtime.Interopservices.Marshal]::ReleaseComObject($Excel) | Out-Null
-# [System.GC]::Collect()
-# [System.GC]::WaitForPendingFinalizers()
