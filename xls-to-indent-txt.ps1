@@ -1,7 +1,7 @@
 function Parse-ExcelWorksheet {
     param (
         [parameter()][System.IO.FileSystemInfo]$Item = (Get-ChildItem *.xlsx),
-        [parameter()][Int32]$WorkSheetNumber = 1
+        [parameter()][Int32]$WorkSheetIndex = 1
     )
 
     $excel = New-Object -ComObject Excel.Application
@@ -9,7 +9,9 @@ function Parse-ExcelWorksheet {
     $excel.DisplayAlerts = $false
     $workBook = $Excel.Workbooks.Open($Item.Fullname)
 
-    $workSheet = $workBook.Worksheets($WorkSheetNumber)
+    $workSheet = $workBook.Worksheets($WorkSheetIndex)
+
+    $workSheet | Format-Table
 
     # Write-Output $workSheet
     # Write-Output $workSheet["A1"]
