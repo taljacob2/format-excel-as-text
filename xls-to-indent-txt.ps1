@@ -52,4 +52,4 @@ function Cleanup-Excel {
 
 Parse-ExcelWorksheet
 $csvFullName = Convert-ExcelToCsv
-Import-Csv $csvFullName > out.txt 
+Import-Csv $csvFullName > "$csvFullName.txt" 
