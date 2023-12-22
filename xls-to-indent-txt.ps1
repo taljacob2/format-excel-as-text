@@ -54,22 +54,45 @@ function Cleanup-Excel {
     [System.GC]::WaitForPendingFinalizers()
 }
 
+function Export-CsvAsTxtTable {
+    param (
+        [parameter(mandatory)][string]$CsvFullName
+    )
+
+    Import-Csv $CsvFullName > "$CsvFullName.txt"
+
+    return "$CsvFullName.txt"
+}
+
+function Export-CsvAsDelimitedTxtTable {
+    param (
+        [parameter(mandatory)][string]$CsvFullName,
+        [parameter()][Char]$Delimiter = '~'
+    )
+
+    $delimitedCsv = $(Import-Csv $CsvFullName)
+    $delimitedCsv | Foreach-Object { 
+        foreach ($property in $_.PSObject.Properties)
+        {
+            $property.Value = "$($property.Value)$Delimiter"
+        }
+    }
+
+    Write-Output $delimitedCsv > "$CsvFullName.delimited.txt"
+
+    return "$CsvFullName.delimited.txt"
+}
+
 $newFormattedFileFullName = Format-ExcelWorksheet
 $csvFullName = Convert-ExcelToCsv -Item (Get-ChildItem $newFormattedFileFullName)
-Import-Csv $csvFullName > "$csvFullName.txt"
+$csvAsTxtTableFullName = Export-CsvAsTxtTable -CsvFullName $csvFullName
+$csvAsDelimitedTxtTable = Export-CsvAsDelimitedTxtTable -CsvFullName $csvFullName
 
-$delimitedCsv = $(Import-Csv $csvFullName)
-$delimitedCsv | Foreach-Object { 
-    foreach ($property in $_.PSObject.Properties)
-    {
-        $property.Value = "$($property.Value)~"
-    }
-}
-Write-Output $delimitedCsv > "$csvFullName.delimited.txt"
 
 # Clean temporary files used for calculations.
 rm $newFormattedFileFullName
 rm $csvFullName
 
-Write-Output "New file: '$csvFullName.txt'"
-Write-Output "New file: '$csvFullName.delimited.txt'"
+# Write results to console.
+Write-Output "New file: '$csvAsTxtTableFullName'"
+Write-Output "New file: '$csvAsDelimitedTxtTable'"
