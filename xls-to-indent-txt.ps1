@@ -1,10 +1,15 @@
-function Parse-Worksheet {
+function Parse-ExcelWorksheet {
     param (
-        [parameter(mandatory)][System.__ComObject]$WorkBook,
+        [parameter()][System.IO.FileSystemInfo]$Item = (Get-ChildItem *.xlsx),
         [parameter()][Int32]$WorkSheetNumber = 1
     )
 
-    $workSheet = $WorkBook.Worksheets($WorkSheetNumber)
+    $Excel = New-Object -ComObject Excel.Application
+    $Excel.visible = $false
+    $Excel.DisplayAlerts = $false
+    $workBook = $Excel.Workbooks.Open($Item.Fullname)
+
+    $workSheet = $workBook.Worksheets($WorkSheetNumber)
 
     # Write-Output $workSheet
     Write-Output $workSheet["A1"]
@@ -18,7 +23,6 @@ function Convert-XlsToCsv {
     $Excel = New-Object -ComObject Excel.Application
     $Excel.visible = $false
     $Excel.DisplayAlerts = $false
-
     $workBook = $Excel.Workbooks.Open($Item.Fullname)
 
     # $workbook.SaveAs("$($Item.Fullname).txt", 42)   # xlUnicodeText
@@ -32,5 +36,6 @@ function Convert-XlsToCsv {
     return $csvFullName
 }
 
-$csvFullName = Convert-XlsToCsv
+Parse-ExcelWorksheet
+$csvFullName = Convert-ExcelToCsv
 Import-Csv $csvFullName > out.txt 
