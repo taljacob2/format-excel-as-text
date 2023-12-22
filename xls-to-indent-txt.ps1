@@ -83,7 +83,7 @@ function Export-CsvAsDelimitedTxtTable {
     return "$CsvFullName.delimited.txt"
 }
 
-$newFormattedFileFullName = Format-ExcelWorksheet
+$newFormattedFileFullName = Format-ExcelWorksheet -Item (Get-ChildItem *.xlsx)
 $csvFullName = Convert-ExcelToCsv -Item (Get-ChildItem $newFormattedFileFullName)
 $csvAsTxtTableFullName = Export-CsvAsTxtTable -CsvFullName $csvFullName
 $csvAsDelimitedTxtTable = Export-CsvAsDelimitedTxtTable -CsvFullName $csvFullName
