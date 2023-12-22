@@ -45,10 +45,11 @@ git clone https://github.com/taljacob2/format-excel-as-text.ps1
 #### Run
 
 ```
-.\format-excel-as-text.ps1.ps1 -Path <string>
+.\format-excel-as-text.ps1.ps1 [[-Path] <String>]
 ```
 
 In case you encouter an error, try running with:
+
 ```
 powershell.exe -NoLogo -ExecutionPolicy Bypass -Command ".\format-excel-as-text.ps1 [[-Path] <String>]"
 ```
@@ -56,6 +57,7 @@ powershell.exe -NoLogo -ExecutionPolicy Bypass -Command ".\format-excel-as-text.
 ## Help
 
 To view the full documentation of the script, run:
+
 ```
 Get-Help .\format-excel-as-text.ps1 -Full
 ```
