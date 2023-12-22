@@ -1,3 +1,8 @@
+param (
+    [parameter()][string]$Path = "*.xlsx"
+)
+
+
 function Format-ExcelWorksheet {
     param (
         [parameter()][System.IO.FileSystemInfo]$Item = (Get-ChildItem *.xlsx),
@@ -83,7 +88,7 @@ function Export-CsvAsDelimitedTxtTable {
     return "$CsvFullName.delimited.txt"
 }
 
-$newFormattedFileFullName = Format-ExcelWorksheet -Item (Get-ChildItem *.xlsx)
+$newFormattedFileFullName = Format-ExcelWorksheet -Item (Get-ChildItem $Path)
 $csvFullName = Convert-ExcelToCsv -Item (Get-ChildItem $newFormattedFileFullName)
 $csvAsTxtTableFullName = Export-CsvAsTxtTable -CsvFullName $csvFullName
 $csvAsDelimitedTxtTable = Export-CsvAsDelimitedTxtTable -CsvFullName $csvFullName
