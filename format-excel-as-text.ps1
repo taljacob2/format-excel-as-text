@@ -7,6 +7,10 @@
   Specify the path to the target Excel file that you wish to export.
   If not specified, this deafults to the ".xlsx" file in the current directory.
 
+  .PARAMETER RangeEndCell
+  Specify the cell to parse until. Starting from "a1", until this cell.
+  If not specified, this defaults to "z999".
+
   .INPUTS
   None. You cannot pipe objects to this script.
 
@@ -30,14 +34,16 @@
 #>
 
 param (
-    [parameter()][string]$Path = "*.xlsx"
+    [parameter()][string]$Path = "*.xlsx",
+    [parameter()][string]$RangeEndCell = "z999"
 )
 
 
 function Format-ExcelWorksheet {
     param (
         [parameter()][System.IO.FileSystemInfo]$Item = (Get-ChildItem *.xlsx),
-        [parameter()][Int32]$WorkSheetIndex = 1
+        [parameter()][Int32]$WorkSheetIndex = 1,
+        [parameter()][string]$RangeEndCell = "z999"
     )
 
     $excel = New-Object -ComObject Excel.Application
@@ -48,7 +54,7 @@ function Format-ExcelWorksheet {
     $workSheet = $workBook.Worksheets($WorkSheetIndex)
     
     # Format numbers.
-    $range = $workSheet.Range("a1","z9")
+    $range = $workSheet.Range("a1", $RangeEndCell)
     $range.NumberFormat = "000000.00"
 
     $newFormattedFileFullName = "$($Item.Fullname).formatted"
@@ -119,7 +125,7 @@ function Export-CsvAsDelimitedTxtTable {
     return "$CsvFullName.delimited.txt"
 }
 
-$newFormattedFileFullName = Format-ExcelWorksheet -Item (Get-ChildItem $Path)
+$newFormattedFileFullName = Format-ExcelWorksheet -Item (Get-ChildItem $Path) -RangeEndCell $RangeEndCell
 $csvFullName = Convert-ExcelToCsv -Item (Get-ChildItem $newFormattedFileFullName)
 $csvAsTxtTableFullName = Export-CsvAsTxtTable -CsvFullName $csvFullName
 $csvAsDelimitedTxtTable = Export-CsvAsDelimitedTxtTable -CsvFullName $csvFullName
